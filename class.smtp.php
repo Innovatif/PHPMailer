@@ -154,6 +154,8 @@ class SMTP
      */
     protected function edebug($str)
     {
+    	$str = getmypid() .' '. $str;
+    	
         switch ($this->Debugoutput) {
             case 'error_log':
                 //Don't output, just log
