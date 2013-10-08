@@ -2748,14 +2748,27 @@ class PHPMailer
      * @param string $value Header value
      * @return void
      */
-    public function addCustomHeader($name, $value = null)
+    public function addCustomHeader($name, $value = null, $replace = false)
     {
         if ($value === null) {
             // Value passed in as name:value
-            $this->CustomHeader[] = explode(':', $name, 2);
+        	$new = explode(':', $name, 2);
         } else {
-            $this->CustomHeader[] = array($name, $value);
+            $new = array($name, $value);
         }
+        
+        $found = false;
+        if ($replace) {
+        	foreach ($this->CustomHeader as $i=>$header) {
+        		if ($header[0] == $new[0]) {
+        			$this->CustomHeader[$i][1] = $new[1];
+        			$found = true;
+        		}
+        	}
+        } 
+        
+        if (!$found) $this->CustomHeader[] = $new;
+        
     }
 
     /**
